@@ -56,6 +56,6 @@ canvas {
     padding: 12px 20px; margin: 5px; font-size: 12px; background: #c62828; color: white;
     border: 2px solid white; border-radius: 0; cursor: pointer; font-family: 'Press Start 2P', monospace;
 }
-#score-ui { position: absolute; top: 10px; left: 10px; color: gold; font-size: 10px; text-shadow: 1px 1px 0 #000; z-index: 10; pointer-events: none; }
+#score-ui { position: absolute; top: 15px; left: 15px; color: gold; font-size: 16px; line-height: 1.5; text-shadow: 2px 2px 0 #000, -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000; z-index: 10; pointer-events: none; }
 .shop-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 2px dashed #444; font-size: 10px; }
 .shop-item span { margin-right: 10px; }

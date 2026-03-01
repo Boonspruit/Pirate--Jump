@@ -166,12 +166,46 @@ function playSound(type) {
         gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.15);
         osc.start(); osc.stop(audioCtx.currentTime + 0.15);
     } else if (type === 'cannon') {
-        osc.type = 'square';
-        osc.frequency.setValueAtTime(100, audioCtx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-        gainNode.gain.setValueAtTime(0.8, audioCtx.currentTime);
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.5);
-        osc.start(); osc.stop(audioCtx.currentTime + 0.5);
+        // Modern, deep cinematic explosion boom
+        let duration = 0.8;
+        
+        // 1. Transient sub-bass punch (Sine wave dropping rapidly in pitch)
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(150, audioCtx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, audioCtx.currentTime + 0.3);
+        
+        // 2. White noise blast layer
+        let bufferSize = audioCtx.sampleRate * duration;
+        let noiseBuffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
+        let output = noiseBuffer.getChannelData(0);
+        for (let i = 0; i < bufferSize; i++) {
+            output[i] = Math.random() * 2 - 1; // White noise
+        }
+        let noiseSrc = audioCtx.createBufferSource();
+        noiseSrc.buffer = noiseBuffer;
+        
+        // Filter the noise to sound muffled and explosive, not hissy
+        let noiseFilter = audioCtx.createBiquadFilter();
+        noiseFilter.type = 'lowpass';
+        noiseFilter.frequency.setValueAtTime(1200, audioCtx.currentTime);
+        noiseFilter.frequency.exponentialRampToValueAtTime(100, audioCtx.currentTime + duration);
+        
+        // Noise volume envelope
+        let noiseGain = audioCtx.createGain();
+        noiseGain.gain.setValueAtTime(1.5, audioCtx.currentTime);
+        noiseGain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+        
+        noiseSrc.connect(noiseFilter);
+        noiseFilter.connect(noiseGain);
+        noiseGain.connect(audioCtx.destination); // Connect noise directly to destination, not through main gainNode
+        noiseSrc.start();
+        
+        // Main boom volume envelope (for the sine wave)
+        gainNode.gain.setValueAtTime(1.2, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duration);
+        
+        osc.start();
+        osc.stop(audioCtx.currentTime + duration);
     }
 }
 
