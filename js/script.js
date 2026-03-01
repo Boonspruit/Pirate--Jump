@@ -280,8 +280,8 @@ function spawnPlatform(y, isFirst = false, isStarter = false) {
 
 function spawnEnemy(y) {
     let difficulty = Math.min(score / 8000, 1);
-    // 10% base chance, up to 25% max
-    if (Math.random() < 0.1 + (difficulty * 0.15)) {
+    // 5% base chance, up to 15% max to reduce chaotic multi-spawns
+    if (Math.random() < 0.05 + (difficulty * 0.10)) {
         enemies.push({
             x: Math.random() * (logicalWidth - 40),
             y: y - 60,
@@ -885,7 +885,7 @@ function draw() {
             let cy = p.y - 12;
             
             // Faint pulsing blue aura behind the pirate shield
-            let pulse = Math.sin(Date.now() / 200) * 5 + 15;
+            let pulse = Math.sin(Date.now() / 200) * 3 + 12;
             let grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, pulse);
             grad.addColorStop(0, 'rgba(0, 191, 255, 0.6)'); // Deep Sky Blue glow
             grad.addColorStop(1, 'rgba(0, 191, 255, 0)');
@@ -893,9 +893,9 @@ function draw() {
             ctx.beginPath(); ctx.arc(cx, cy, pulse, 0, Math.PI * 2); ctx.fill();
             
             // Draw Pirate Wheel Shape
-            ctx.fillStyle = '#795548'; ctx.beginPath(); ctx.arc(cx, cy, 10, 0, Math.PI*2); ctx.fill();
-            ctx.fillStyle = '#d7ccc8'; ctx.beginPath(); ctx.arc(cx, cy, 6, 0, Math.PI*2); ctx.fill();
-            for(let a=0; a<4; a++) { ctx.save(); ctx.translate(cx, cy); ctx.rotate(a*Math.PI/4); ctx.fillStyle='#5d4037'; ctx.fillRect(-12, -2, 24, 4); ctx.restore(); }
+            ctx.fillStyle = '#795548'; ctx.beginPath(); ctx.arc(cx, cy, 7.5, 0, Math.PI*2); ctx.fill();
+            ctx.fillStyle = '#d7ccc8'; ctx.beginPath(); ctx.arc(cx, cy, 4.5, 0, Math.PI*2); ctx.fill();
+            for(let a=0; a<4; a++) { ctx.save(); ctx.translate(cx, cy); ctx.rotate(a*Math.PI/4); ctx.fillStyle='#5d4037'; ctx.fillRect(-9, -1.5, 18, 3); ctx.restore(); }
         }
     });
 
