@@ -769,6 +769,26 @@ function gameOver() {
 function draw() {
     ctx.clearRect(0, 0, logicalWidth, logicalHeight);
     
+    // Gate the main render loop behind an asset pre-loader to prevent FOUC procedural shapes from flashing
+    if (imagesLoaded < totalImages) {
+        ctx.fillStyle = '#0077be'; 
+        ctx.fillRect(0, 0, logicalWidth, logicalHeight);
+        
+        ctx.fillStyle = 'white';
+        ctx.textAlign = 'center';
+        ctx.font = '20px "Press Start 2P", monospace';
+        
+        let percent = Math.floor((imagesLoaded / totalImages) * 100);
+        ctx.fillText(`LOADING... ${percent}%`, logicalWidth / 2, logicalHeight / 2);
+        
+        ctx.strokeStyle = 'white'; ctx.lineWidth = 2;
+        ctx.strokeRect(logicalWidth / 2 - 100, logicalHeight / 2 + 30, 200, 20);
+        ctx.fillStyle = '#ffb300';
+        ctx.fillRect(logicalWidth / 2 - 98, logicalHeight / 2 + 32, 196 * (imagesLoaded / totalImages), 16);
+        ctx.textAlign = 'left'; 
+        return; // Halt main drawing routine
+    }
+    
     // Dynamic Background logic
     let skyAlpha = 1, cloudsAlpha = 0, spaceAlpha = 0;
     if (score < 8000) {
