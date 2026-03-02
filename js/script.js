@@ -225,8 +225,8 @@ loadProcessedImage(images.chef, 'assets/chef_hat.png');
 loadProcessedImage(images.crown, 'assets/crown_hat.png');
 loadProcessedImage(images.island, 'assets/island.png');
 
-loadProcessedImage(images.oceanWaves, 'assets/ocean_waves.png');
-loadRawImage(images.bgSky, 'assets/bg_sky.png');
+loadProcessedImage(images.oceanWaves, 'assets/ocean_waves.png?v=2');
+loadRawImage(images.bgSky, 'assets/bg_sky.png?v=2');
 loadRawImage(images.bgClouds, 'assets/bg_clouds.png');
 loadRawImage(images.bgSpace, 'assets/bg_space.png');
 
